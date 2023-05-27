@@ -60,7 +60,7 @@ export default function Topbar() {
     }
 
     return (
-        <div className="bg-six w-full px-4 py-2.5 sticky top-0 sm:px-10 z-50">
+        <div className="bg-six w-full px-4 py-2.5 sm:px-10 z-40">
             <div className="h-9 sm:h-10 flex items-center justify-between gap-x-5">
                 <h1 onClick={() => router.push('/')} className={`${searchState && 'max-[639px]:hidden'} font-medium 
                 sm:text-lg text-main tracking-widest cursor-pointer uppercase`}>inwatch</h1>
@@ -78,8 +78,7 @@ export default function Topbar() {
                         }
                     </div>
                     <div className={`${searchValue && (searchData.length || searchNotif) ? 'grid' : 'hidden'} 
-                    absolute inset-x-0 bg-five divide-y divide-three rounded
-                    overflow-auto max-h-[calc(100vh-72px)]`}>
+                    absolute inset-x-0 bg-five divide-y divide-three rounded shadow-[0_0_10px_5px_rgba(0,0,0,0.5)]`}>
                         {!searchData.length && searchNotif ?
                             <h1 className="text-xs sm:text-sm font-medium text-two text-center col-span-2 p-2">
                                 {searchNotif}

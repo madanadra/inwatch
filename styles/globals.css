@@ -16,3 +16,12 @@ body {
 .slider::-webkit-scrollbar {
     display: none;
 }
+
+.up {
+    animation: up 0.5s;
+}
+
+@keyframes up {
+    from {top: -100%}
+    to {top: 28px}
+}
