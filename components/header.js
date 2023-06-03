@@ -6,7 +6,7 @@ export default function Header({title, to}) {
 
     return (
         <div onClick={() => router.push(to ? '/'+to : '/')} 
-        className="flex items-center gap-x-2 mx-4 sm:mx-10 mt-5 text-lg sm:text-xl group cursor-pointer w-max">
+        className="flex items-center gap-x-2 px-4 sm:px-10 mt-5 text-lg sm:text-xl group cursor-pointer w-max">
             <IoChevronBack className={`${to && 'hidden'} group-hover:text-main`} />
             <h1 className="font-bold uppercase tracking-wider">{title}</h1>
             <IoChevronForward className={`${!to && 'hidden'} group-hover:text-main`} />

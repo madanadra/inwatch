@@ -10,10 +10,12 @@ export default function Layout({title, children}) {
                 <title>{title}</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
-            <main className='flex flex-col bg-seven text-one font-inter w-full min-h-screen'>
+            <main className='bg-seven text-one font-inter w-full'>
                 <Up />
-                <Topbar />
-                <div className='grow'>{children}</div>
+                <div className='flex flex-col min-h-screen'>
+                    <Topbar />
+                    <div className='grow relative pb-32'>{children}</div>
+                </div>
                 <Footer />
             </main>
         </>

@@ -13,8 +13,22 @@ export default function InTheaters() {
 
     return (
         <Layout title='In Theaters - Inwatch'>
-            <Header title='in theaters' />
-            <Grid items={state.inTheaters} />
+            { 
+                state.error ? 
+                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
+                    Something went wrong
+                </h1>
+                :
+                Array.isArray(state.inTheaters) && state.inTheaters.length ?
+                <>
+                    <Header title='in theaters' />
+                    <Grid items={state.inTheaters} />
+                </>
+                : 
+                <div className="absolute inset-0 grid place-content-center">
+                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
+                </div>
+            }
         </Layout>
     )
 }

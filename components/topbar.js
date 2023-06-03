@@ -43,17 +43,19 @@ export default function Topbar() {
             setSearchLoad(true);
             axios.get(`${process.env.NEXT_PUBLIC_IMDB_BASE_URL}/Search/${process.env.NEXT_PUBLIC_IMDB_API_KEY}/${searchValue}`)
             .then((res) => {
-                setSearchData(res.data.results.slice(0, 10));
-                if (!res.data.results.length) {
-                    setSearchNotif('No results found');
+                if (res.data.results.length) {
+                    setSearchData(res.data.results.slice(0, 10))
+                } else {
+                    if (res.data.errorMessage) {
+                        setSearchNotif('Something went wrong')
+                    } else {
+                        setSearchNotif('No results found')
+                    }
                 }
-                console.log(res.data.results);
+                setSearchLoad(false);
             })
-            .catch((err) => {
-                setSearchNotif('Something went wrong');
-                console.log(err);
-            })
-            .then(() => {
+            .catch(() => {
+                setSearchNotif('Something went wrong')
                 setSearchLoad(false);
             })
         }

@@ -51,8 +51,7 @@ export default function Slider({items}) {
             md:auto-cols-[calc((100%-56px)/5)] 
             lg:auto-cols-[calc((100%-80px)/6)] 
             xl:auto-cols-[calc((100%-108px)/7)]'>
-                {Array.isArray(items) && items.length ? items.map((item, i) => 
-                <CardVertical key={i} id={item.id} image={item.image} title={item.title} />) : []}
+                {items.map((item, i) => <CardVertical key={i} id={item.id} image={item.image} title={item.title} />)}
             </div>
             <div onClick={() => scroll('left')} className={`${left && 'sm:grid'} hidden absolute 
             top-1/2 translate-y-[-50%] bottom-auto left-0 py-3 px-1.5 bg-five hover:bg-four 

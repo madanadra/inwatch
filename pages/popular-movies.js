@@ -13,8 +13,22 @@ export default function PopularMovies() {
 
     return (
         <Layout title='Popular Movies - Inwatch'>
-            <Header title='popular movies' />
-            <Grid items={state.popularMovies} />
+            { 
+                state.error ? 
+                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
+                    Something went wrong
+                </h1>
+                :
+                Array.isArray(state.popularMovies) && state.popularMovies.length ?
+                <>
+                    <Header title='popular movies' />
+                    <Grid items={state.popularMovies} />  
+                </>
+                : 
+                <div className="absolute inset-0 grid place-content-center">
+                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
+                </div>
+            }
         </Layout>
     )
 }
