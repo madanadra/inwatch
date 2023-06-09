@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
-import Grid from "../components/grid";
+import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
 export default function TopMovies() {
-    const {state, getTopMovies} = useContext(InwatchContext)
+    const { topMovies, setTopMovies, error } = useInwatch()
+      
+    const topMoviesExist = Array.isArray(topMovies) && topMovies.length > 0 ? true : false
       
     useEffect(() => {
-        getTopMovies()
+        if (!topMoviesExist) {
+            get({url: 'Top250Movies', err: error}).then((data) => {
+              setTopMovies(data?.items)
+            })
+        }
     }, [])
 
     return (
         <Layout title='Top Movies - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.topMovies) && state.topMovies.length ?
-                <>
-                    <Header title='top movies' />
-                    <Grid items={state.topMovies} />   
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={topMoviesExist ? true : false}>
+                <Header title='top movies' />
+                <Grid items={topMovies} />  
+            </MoreLayout>
         </Layout>
     )
 }

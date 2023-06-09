@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
-import Grid from "../components/grid";
+import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
 export default function PopularTvShows() {
-    const {state, getPopularTvShows} = useContext(InwatchContext)
+    const { popularTvShows, setPopularTvShows, error } = useInwatch()
+      
+    const popularTvShowsExist = Array.isArray(popularTvShows) && popularTvShows.length > 0 ? true : false
       
     useEffect(() => {
-        getPopularTvShows()
+        if (!popularTvShowsExist) {
+            get({url: 'MostPopularTVs', err: error}).then((data) => {
+              setPopularTvShows(data?.items)
+            })
+        }
     }, [])
 
     return (
         <Layout title='Popular TV Shows - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.popularTvShows) && state.popularTvShows.length ?
-                <>
-                    <Header title='popular tv shows ' />
-                    <Grid items={state.popularTvShows} />   
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={popularTvShowsExist ? true : false}>
+                <Header title='popular tv shows' />
+                <Grid items={popularTvShows} />  
+            </MoreLayout>
         </Layout>
     )
 }

@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
 import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
-export default function BoxOfficeAllTime() {
-    const {state, getBoxOffice} = useContext(InwatchContext)
+export default function BoxOffice() {
+    const { boxOffice, setBoxOffice, error } = useInwatch()
+      
+    const boxOfficeExist = Array.isArray(boxOffice) && boxOffice.length > 0 ? true : false
       
     useEffect(() => {
-        getBoxOffice()
-      }, [])
+        if (!boxOfficeExist) {
+            get({url: 'BoxOffice', err: error}).then((data) => {
+              setBoxOffice(data?.items)
+            })
+        }
+    }, [])
 
     return (
         <Layout title='Box Office - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.boxOffice) && state.boxOffice.length ?
-                <>
-                    <Header title='box office' />
-                    <Grid items={state.boxOffice} />  
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={boxOfficeExist ? true : false}>
+                <Header title='box office' />
+                <Grid items={boxOffice} />  
+            </MoreLayout>
         </Layout>
     )
 }

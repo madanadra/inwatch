@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
-import Grid from "../components/grid";
+import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
 export default function PopularMovies() {
-    const {state, getPopularMovies} = useContext(InwatchContext)
+    const { popularMovies, setPopularMovies, error } = useInwatch()
+      
+    const popularMoviesExist = Array.isArray(popularMovies) && popularMovies.length > 0 ? true : false
       
     useEffect(() => {
-        getPopularMovies()
+        if (!popularMoviesExist) {
+            get({url: 'MostPopularMovies', err: error}).then((data) => {
+              setPopularMovies(data?.items)
+            })
+        }
     }, [])
 
     return (
         <Layout title='Popular Movies - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.popularMovies) && state.popularMovies.length ?
-                <>
-                    <Header title='popular movies' />
-                    <Grid items={state.popularMovies} />  
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={popularMoviesExist ? true : false}>
+                <Header title='popular movies' />
+                <Grid items={popularMovies} />  
+            </MoreLayout>
         </Layout>
     )
 }

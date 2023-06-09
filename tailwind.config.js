@@ -23,11 +23,11 @@ module.exports = {
       main: '#0c75ad',
       one: '#ffffff',
       two: '#b3b3b3',
-      three: '#232323',
-      four: '#1f1f1f',
-      five: '#131313',
-      six: '#0f0f0f',
-      seven: '#030303'
+      three: '#323232',
+      four: '#2c2c2c',
+      five: '#222222',
+      six: '#1c1c1c',
+      seven: '#121212'
     },
     fontFamily: {
       inter: 'Inter, sans-serif'

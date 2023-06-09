@@ -1,46 +1,40 @@
-import { useContext } from 'react';
-import { InwatchContext } from '../store/context';
+import { useInwatch } from "../zustand"
+import { IoPlayCircleOutline } from 'react-icons/io5';
 
 export default function DetailMedia() {
-    const {state} = useContext(InwatchContext)
+    const { detail } = useInwatch()
 
     const Trailer = () => {
-        // if (!trailer) {
-        //     return (
-        //         <div className='grid place-content-center h-full'>
-        //             <div className='rounded-full aspect-square w-[42px] sm:w-12 
-        //             border border-two border-t-three animate-spin' />
-        //         </div>
-        //     )
-        // } else if (trailer === 'not found' ) {
-        //     return (
-        //         <h1 className='grid place-content-center h-full text-sm sm:text-base text-two'>Trailer not found</h1>
-        //     )
-        // } else if (trailer === 'something went wrong') {
-        //     return (
-        //         <h1 className='grid place-content-center h-full text-sm sm:text-base text-two'>Trailer error</h1>
-        //     )
-        // }
+        if (!detail.trailer?.thumbnailUrl) {
+            return (
+                <h1 className='sm:text-lg text-two absolute inset-0 grid place-content-center'>
+                    Trailer {detail.trailer?.errorMessage ? 'error' : 'not found'}
+                </h1>
+            )
+        }
 
-        return (
-            <iframe src={state.main.trailer?.linkEmbed} allowFullScreen 
-            loading='lazy' className='w-full h-full' />
-        )
+        return (<>
+            <img src={detail.trailer?.thumbnailUrl} alt='Trailer'
+            loading='lazy' className='w-full h-full brightness-75' />
+            <div className='absolute inset-0 grid place-content-center 
+            shadow-[0_0_50px_25px_rgba(0,0,0,0.5)_inset] sm:shadow-[0_0_100px_50px_rgba(0,0,0,0.5)_inset'>
+                <IoPlayCircleOutline className='text-5xl sm:text-9xl' />          
+            </div>
+        </>)
     }
     
     return (
-        <div className='flex gap-x-0.5 xs:gap-x-1 sm:gap-x-1.5 md:gap-x-2 lg:gap-x-2.5 xl:gap-x-3 px-4 sm:px-10'>
-            <div className='rounded overflow-hidden aspect-[2/3] w-[calc((6%*100/22)-1px)] xs:w-[calc((6%*100/22)-2px)]
-            sm:w-[calc((6%*100/22)-3px)] md:w-[calc((6%*100/22)-4px)] lg:w-[calc((6%*100/22)-5px)] 
-            xl:w-[calc((6%*100/22)-6px)] bg-three'>
-                <img src={state.main.image} 
+        <div className='flex gap-x-1 sm:gap-x-2 px-4 sm:px-10'>
+            <div className='rounded overflow-hidden aspect-[2/3] w-[calc((6%*100/22)-2px)]
+            sm:w-[calc((6%*100/22)-4px)] bg-three'>
+                <img src={detail.image} 
                 alt='Poster' loading='lazy' className='w-full h-full' />
             </div>
-            <div className='rounded overflow-hidden aspect-[16/9] w-[calc((16%*100/22)-1px)] xs:w-[calc((16%*100/22)-2px)]
-            sm:w-[calc((16%*100/22)-3px)] md:w-[calc((16%*100/22)-4px)] lg:w-[calc((16%*100/22)-5px)] 
-            xl:w-[calc((16%*100/22)-6px)] bg-three'>
+            <a href={detail.trailer?.link} target="_blank" rel="noopener noreferrer" 
+            className='rounded overflow-hidden aspect-[16/9] w-[calc((16%*100/22)-2px)] 
+            sm:w-[calc((16%*100/22)-4px)] bg-three relative'>
                 <Trailer />
-            </div>
+            </a>
         </div>
     )
 }

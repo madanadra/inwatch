@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
-import Grid from "../components/grid";
+import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
 export default function InTheaters() {
-    const {state, getInTheaters} = useContext(InwatchContext)
+    const { inTheaters, setInTheaters, error } = useInwatch()
+      
+    const inTheatersExist = Array.isArray(inTheaters) && inTheaters.length > 0 ? true : false
       
     useEffect(() => {
-        getInTheaters()
+        if (!inTheatersExist) {
+            get({url: 'InTheaters', err: error}).then((data) => {
+              setInTheaters(data?.items)
+            })
+        }
     }, [])
 
     return (
         <Layout title='In Theaters - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.inTheaters) && state.inTheaters.length ?
-                <>
-                    <Header title='in theaters' />
-                    <Grid items={state.inTheaters} />
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={inTheatersExist ? true : false}>
+                <Header title='in theaters' />
+                <Grid items={inTheaters} />  
+            </MoreLayout>
         </Layout>
     )
 }

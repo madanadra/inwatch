@@ -1,40 +1,32 @@
-import { useContext } from 'react';
-import { InwatchContext } from '../store/context';
+import { useInwatch } from '../zustand';
 
 export default function DetailHeader() {
-    const {state} = useContext(InwatchContext)
-
-    const Sub = ({item, optional}) => {
-        return (item && <>
-            <h1 className='text-xs sm:text-sm text-two font-medium'>{item}{optional && '-'+state.main.tvSeriesInfo?.yearEnd}</h1>
-            <span className='last:hidden'>&middot;</span>
-        </>)
-    }
+    const { detail } = useInwatch()
 
     return (
         <div className='grid gap-y-1 px-4 sm:px-10'>
-            <h1 className='text-3xl sm:text-4xl'>{state.main.title}</h1>
-            {(state.main.tvEpisodeInfo?.seriesTitle || state.main.tvEpisodeInfo?.seasonNumber || 
-            state.main.tvEpisodeInfo?.episodeNumber) &&
+            <h1 className='text-3xl sm:text-4xl'>{detail.title}</h1>
+            {(detail.tvEpisodeInfo?.seriesTitle || detail.tvEpisodeInfo?.seasonNumber || 
+            detail.tvEpisodeInfo?.episodeNumber) &&
                 <h1 className='text-xs sm:text-sm text-two font-medium'>
-                    <span>{state.main.tvEpisodeInfo?.seriesTitle} </span>
-                    <span>{state.main.tvEpisodeInfo?.seasonNumber && 
-                    'Season '+state.main.tvEpisodeInfo?.seasonNumber} </span>
-                    <span>{state.main.tvEpisodeInfo?.episodeNumber && 
-                    'Episode '+state.main.tvEpisodeInfo?.episodeNumber} </span>
+                    <span>{detail.tvEpisodeInfo?.seriesTitle} </span>
+                    <span>{detail.tvEpisodeInfo?.seasonNumber && 
+                    'Season '+detail.tvEpisodeInfo?.seasonNumber} </span>
+                    <span>{detail.tvEpisodeInfo?.episodeNumber && 
+                    'Episode '+detail.tvEpisodeInfo?.episodeNumber} </span>
                 </h1>
             }
             <div className='flex gap-x-1 items-center text-xs sm:text-sm text-two font-medium'>
-                {state.main.type && <><h1>{state.main.type}</h1><span className='last:hidden'>&middot;</span></>}
+                {detail.type && <><h1>{detail.type}</h1><span className='last:hidden'>&middot;</span></>}
 
-                {state.main.year && <><h1>{state.main.year}{state.main.tvSeriesInfo?.yearEnd && 
-                '-'+state.main.tvSeriesInfo?.yearEnd}</h1><span className='last:hidden'>&middot;</span></>}
+                {detail.year && <><h1>{detail.year}{detail.tvSeriesInfo?.yearEnd && 
+                '-'+detail.tvSeriesInfo?.yearEnd}</h1><span className='last:hidden'>&middot;</span></>}
 
-                {state.main.runtimeStr && <><h1>{state.main.runtimeStr}</h1>
+                {detail.runtimeStr && <><h1>{detail.runtimeStr}</h1>
                 <span className='last:hidden'>&middot;</span></>}
                 
-                {state.main.tvSeriesInfo?.seasons.length > 0 && 
-                <><h1>{state.main.tvSeriesInfo?.seasons.length} Season{state.main.tvSeriesInfo?.seasons.length > 1 && 
+                {detail.tvSeriesInfo?.seasons.length > 0 && 
+                <><h1>{detail.tvSeriesInfo?.seasons.length} Season{detail.tvSeriesInfo?.seasons.length > 1 && 
                 's'}</h1><span className='last:hidden'>&middot;</span></>}
             </div>
         </div>

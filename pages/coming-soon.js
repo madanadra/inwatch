@@ -1,34 +1,29 @@
-import { useEffect, useContext } from "react"
-import { InwatchContext } from '../store/context';
+import { useEffect } from "react"
+import { useInwatch, get } from "../zustand";
 import Header from "../components/header";
 import Layout from "../components/layout";
-import Grid from "../components/grid";
+import Grid from "../components/grid"
+import MoreLayout from "../components/more-layout";
 
 export default function ComingSoon() {
-    const {state, getComingSoon} = useContext(InwatchContext)
+    const { comingSoon, setComingSoon, error } = useInwatch()
+      
+    const comingSoonExist = Array.isArray(comingSoon) && comingSoon.length > 0 ? true : false
       
     useEffect(() => {
-        getComingSoon()
+        if (!comingSoonExist) {
+            get({url: 'ComingSoon', err: error}).then((data) => {
+              setComingSoon(data?.items)
+            })
+        }
     }, [])
 
     return (
         <Layout title='Coming Soon - Inwatch'>
-            { 
-                state.error ? 
-                <h1 className="absolute inset-0 grid place-content-center text-sm sm:text-base">
-                    Something went wrong
-                </h1>
-                :
-                Array.isArray(state.comingSoon) && state.comingSoon.length ?
-                <>
-                    <Header title='coming soon' />
-                    <Grid items={state.comingSoon} />  
-                </>
-                : 
-                <div className="absolute inset-0 grid place-content-center">
-                    <div className='rounded-full aspect-square w-[42px] sm:w-12 border border-two border-t-three animate-spin' />
-                </div>
-            }
+            <MoreLayout itemExist={comingSoonExist ? true : false}>
+                <Header title='coming soon' />
+                <Grid items={comingSoon} />  
+            </MoreLayout>
         </Layout>
     )
 }
