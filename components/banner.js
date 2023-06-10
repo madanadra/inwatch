@@ -5,7 +5,7 @@ export default function Banner({items}) {
 
     return (
         <div onClick={() => router.push('box-office')}
-        className="relative overflow-hidden cursor-pointer bg-five mb-8">
+        className="relative overflow-hidden cursor-pointer bg-three mb-8">
             <div className="grid grid-cols-10 brightness-50">
                 {items.map((item, i) => 
                     <img key={i} src={item.image} alt="Poster" loading='lazy' 
