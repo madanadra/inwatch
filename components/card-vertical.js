@@ -8,7 +8,7 @@ export default function CardVertical({id, image, title}) {
         className='bg-five cursor-pointer rounded overflow-hidden hover:shadow-[0_0_6px_3px_rgba(0,0,0,0.5)] 
         duration-75 group'>
             <div className='aspect-[2/3] bg-three'>
-                <img src={image} alt="Poster" loading='lazy' className="w-full h-full group-hover:brightness-90 
+                <img src={image} alt="Poster" loading='eager' className="w-full h-full group-hover:brightness-90 
                 duration-75" />
             </div>
             <div className='h-12 sm:h-14 py-2 px-3 overflow-hidden grid content-center'>

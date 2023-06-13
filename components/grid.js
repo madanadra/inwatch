@@ -1,4 +1,4 @@
-import CardVertical from "../components/card-vertical";
+import CardVertical from "./card-vertical";
 
 export default function Grid({items}) {
     return (
