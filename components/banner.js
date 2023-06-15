@@ -8,7 +8,8 @@ export default function Banner({items}) {
         className="relative overflow-hidden cursor-pointer bg-three mb-8">
             <div className="grid grid-cols-10 brightness-50">
                 {items.map((item, i) => 
-                    <img key={i} src={item.image} alt="Poster" loading='eager' 
+                    <img key={i} src={item.image.replace(/@._V1_.*\_AL_.jpg/gi, '@._V1_UX340_CR0,3,340,510_AL_.jpg')} 
+                    alt="Poster" loading='eager' 
                     className="w-full aspect-[1/6] sm:aspect-[1/4] object-cover object-center" />
                 )}
             </div>
