@@ -8,12 +8,15 @@ export default function Wrap({items, more}) {
         text-xs sm:text-sm`}>
             {items.map((item, i) =>
                 <h1 key={i} onClick={() => router.push(`/${item.id}`)} 
-                className='rounded bg-five hover:bg-four truncate cursor-pointer py-2 px-3'>
+                className='rounded-full border border-three hover:bg-six truncate cursor-pointer py-1.5 px-3'>
                     {item.title}
                 </h1>
             )}
             <h1 onClick={() => router.push('/box-office-all-time')}
-            className={`${!more && 'hidden'} text-main hover:underline cursor-pointer`}>More box office all time</h1>
+            className={`${!more && 'hidden'} text-main
+            rounded-full border border-three hover:bg-six truncate cursor-pointer py-1.5 px-3`}>
+                More box office all time
+            </h1>
         </div>
     )
 }
