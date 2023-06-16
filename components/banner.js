@@ -8,8 +8,8 @@ export default function Banner({items}) {
         className="relative overflow-hidden cursor-pointer bg-three mb-10">
             <div className="grid grid-cols-10 brightness-50">
                 {items.map((item, i) => 
-                    <div className='overflow-hidden'>
-                        <img key={i} src={item.image.replace(/@._V1_.*\_AL_.jpg/gi, '@._V1_UX540_CR0,3,540,810_AL_.jpg')} 
+                    <div key={i} className='overflow-hidden'>
+                        <img src={item.image.replace(/@._V1_.*\_AL_.jpg/gi, '@._V1_UX540_CR0,3,540,810_AL_.jpg')} 
                         alt="Poster" loading='eager' 
                         className="w-full aspect-[1/6] sm:aspect-[1/4] object-cover object-center scale-150" />
                     </div>
