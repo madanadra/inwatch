@@ -12,6 +12,7 @@ export default function Topbar() {
     const [showResult, setShowResult] = useState(false)
     const [searchValue, setSearchValue] = useState('')
     const [searchData, setSearchData] = useState([])
+    const [notFound, setNotFound] = useState(false)
     const searchDataExist = Array.isArray(searchData) && searchData.length > 0
 
     useEffect(() => {
@@ -27,7 +28,8 @@ export default function Topbar() {
     }, [showSearch]);
 
     useEffect(() => {
-        setSearchData([]);
+        setNotFound(false)
+        setSearchData([])
         if (searchValue) {
             if (!showResult) {
                 setShowResult(true)
@@ -42,7 +44,11 @@ export default function Topbar() {
     const search = () => {
         if (searchValue) {
             get({url: 'Search', secondUrl: searchValue, err: error}).then((data) => {
-                setSearchData(data?.results.slice(0, 10))
+                if (data?.results?.length === 0) {
+                    setNotFound(true)
+                } else {
+                    setSearchData(data?.results?.slice(0, 10))
+                }
             })
         }
     }
@@ -51,12 +57,20 @@ export default function Topbar() {
         if (error && !searchDataExist) {
             return (
                 <h1 className="text-xs sm:text-sm font-medium text-two text-center p-3">
-                    Something went wrong
+                    {error}
                 </h1>
             )
         }
 
-        if (!error && !searchDataExist) {
+        if (!error && !searchDataExist && notFound) {
+            return (
+                <h1 className="text-xs sm:text-sm font-medium text-two text-center p-3">
+                    Not found
+                </h1>
+            )
+        }
+
+        if (!error && !searchDataExist && !notFound) {
             return (
                 <div className="grid place-content-center p-3">
                     <div className='rounded-full aspect-square w-4 sm:w-5 
